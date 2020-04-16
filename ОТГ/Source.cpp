@@ -1,59 +1,67 @@
+// Алгоритмы поиска в ширину и глубину.
+//
+// 7. Определить, существует ли маршрут между двумя заданными вершинами в неориентированном графе. 
+// Граф в памяти представлять в виде матрицы.
+// 
+// Выполнили: Пятанин А., Коржов К., Ишутин М., Бурлаков В.
+// Автор: Пятанин А.
+
 #include <iostream>
 #include <iomanip>
 #include <vector>
 
-using namespace std;
+std::vector<bool> marks;
 
-vector<bool> marks;
-
-int doDfs(int A, int B, const vector<vector<double>> &graph)
+bool doDfs(size_t start, size_t destination, const std::vector<std::vector<double>> &graph)
 {
-   marks[A] = true;
-   if (A != B)
+   marks[start] = true;
+   if (start != destination)
    {
-      for (int i = 0; i < graph[A].size(); ++i)
+      for (size_t i = 0; i < graph[start].size(); ++i)
       {
-         if (graph[A][i] != -1 && !marks[i])
-            if (doDfs(i, B, graph))
+         if (graph[start][i] != -1 && !marks[i])
+            if (doDfs(i, destination, graph))
             {
-               cout << "<-" << A + 1;
+               std::cout << "<-" << start + 1; //не нравится
                return 1;
             }
       }
-      return 0;
+
+      return false;
    }
    else
    {
-      cout << "route: " << B + 1; 
-      return 1;
+      std::cout << "route: " << destination + 1; //не нравится
+      return true;
    }
 }
 
 int main()
 {
-   int n, A, B; 
-   cin >> n >> A >> B;
+   size_t n, start, destination; 
+   std::cin >> n >> start >> destination;
 
-   vector<vector<double>> matrix(n, vector<double>(n, -1)); 
-   int a, b;
-   double w = 2;
-   while (cin >> a >> b)
+   std::vector<std::vector<double>> graph(n, std::vector<double>(n, -1)); 
+   size_t a, b;
+   double w = 2.;
+   while (std::cin >> a >> b)
    {
-      matrix[a - 1][b - 1] = w; 
-      matrix[b - 1][a - 1] = w;
+      graph[a - 1][b - 1] = w; 
+      graph[b - 1][a - 1] = w;
    }
 
-   for (int i = 0; i < matrix.size(); ++i)
+   for (size_t i = 0; i < graph.size(); ++i)
    {
-      for (int j = 0; j < matrix[i].size(); ++j)
+      for (size_t j = 0; j < graph[i].size(); ++j)
       {
-         cout << matrix[i][j] << '\t';
+         std::cout << graph[i][j] << '\t';
       }
-      cout << endl;
+      std::cout << std::endl;
    }
 
    marks.assign(n, false);
-   if (!(doDfs(A - 1, B - 1, matrix)))
-      cout << "route is absent";
-   cout << endl;
+   if (!(doDfs(start - 1, destination - 1, graph)))
+      std::cout << "Route is absent" << std::endl;
+
+   return 0;
 }
