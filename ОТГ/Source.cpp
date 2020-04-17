@@ -39,6 +39,9 @@ bool doDfs(size_t source, size_t destination, const std::vector<std::vector<doub
 
 int main()
 {
+   std::ios::sync_with_stdio(false);
+   std::cin.tie(NULL);
+
    size_t n, source, destination; 
    std::cin >> n >> source >> destination;
 
