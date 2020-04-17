@@ -12,17 +12,17 @@
 
 std::vector<bool> marks;
 
-bool doDfs(size_t start, size_t destination, const std::vector<std::vector<double>> &graph)
+bool doDfs(size_t source, size_t destination, const std::vector<std::vector<double>> &graph)
 {
-   marks[start] = true;
-   if (start != destination)
+   marks[source] = true;
+   if (source != destination)
    {
-      for (size_t i = 0; i < graph[start].size(); ++i)
+      for (size_t i = 0; i < graph[source].size(); ++i)
       {
-         if (graph[start][i] != -1 && !marks[i])
+         if (graph[source][i] != -1 && !marks[i])
             if (doDfs(i, destination, graph))
             {
-               std::cout << "<-" << start + 1; //не нравится
+               std::cout << "<-" << source + 1; //не нравится
                return 1;
             }
       }
@@ -38,8 +38,8 @@ bool doDfs(size_t start, size_t destination, const std::vector<std::vector<doubl
 
 int main()
 {
-   size_t n, start, destination; 
-   std::cin >> n >> start >> destination;
+   size_t n, source, destination; 
+   std::cin >> n >> source >> destination;
 
    std::vector<std::vector<double>> graph(n, std::vector<double>(n, -1)); 
    size_t a, b;
@@ -60,7 +60,7 @@ int main()
    }
 
    marks.assign(n, false);
-   if (!(doDfs(start - 1, destination - 1, graph)))
+   if (!(doDfs(source - 1, destination - 1, graph)))
       std::cout << "Route is absent" << std::endl;
 
    return 0;
