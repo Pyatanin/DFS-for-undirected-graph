@@ -24,7 +24,7 @@ bool doDfs(size_t source, size_t destination, const std::vector<std::vector<doub
             if (doDfs(i, destination, graph))
             {
                std::cout << "<-" << source + 1; //не нравится
-               return 1;
+               return true;
             }
       }
 
