@@ -64,8 +64,16 @@ int main()
    }
 
    marks.assign(n, false);
+
+   auto startTime = std::chrono::high_resolution_clock::now();
+
    if (!(doDfs(source - 1, destination - 1, graph)))
       std::cout << "Route is absent" << std::endl;
+
+   auto endTime = std::chrono::high_resolution_clock::now() - startTime;
+   auto elaplsedTime = std::chrono::duration<double>(endTime).count();
+   
+   std::cout << elapsedTime << std::endl;
 
    return 0;
 }
