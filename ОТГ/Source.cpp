@@ -61,7 +61,7 @@ int main()
    auto endTime = std::chrono::high_resolution_clock::now() - startTime;
    auto elaplsedTime = std::chrono::duration<double>(endTime).count();
    
-   std::cout << elapsedTime << std::endl;
+   std::cout << "Algorithm time is " <<elapsedTime << " seconds.\n";
 
    return 0;
 }
