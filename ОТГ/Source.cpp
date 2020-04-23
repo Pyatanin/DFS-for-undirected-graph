@@ -8,23 +8,17 @@
 
 #include <iostream>
 #include <iomanip>
+#include <chrono>
 #include <vector>
 
 std::vector<bool> marks;
 
-bool doDfs(size_t start, size_t destination, const std::vector<std::vector<double>> &graph)
+void doDfs(size_t source, const std::vector<std::vector<double>> &graph)
 {
-   marks[start] = true;
-   if (start != destination)
-   {
-      for (size_t i = 0; i < graph[start].size(); ++i)
-         if (graph[start][i] != -1 && !marks[i])
-            if (doDfs(i, destination, graph))
-               return true;
-      return false;
-   }
-   else
-      return true;
+   marks[source] = true;
+   for (size_t i = 0; i < graph[source].size(); i++)
+      if (!marks[graph[source][i]])
+         doDfs(graph[source][i], graph);
 }
 
 int main()
@@ -32,34 +26,36 @@ int main()
    std::ios::sync_with_stdio(false);
    std::cin.tie(NULL);
 
-   size_t n, start, destination; 
-   std::cin >> n >> start >> destination;
+   size_t n = 0; 
+   std::cin >> n;
+   std::vector<std::vector<double>> graph(n, std::vector<double>(n, -1));
 
-   std::vector<std::vector<double>> graph(n, std::vector<double>(n, -1)); 
-   size_t a, b;
-   double w = 2.;
-   while (std::cin >> a >> b)
+   for (size_t i = 0; i < n; i++)
    {
-      graph[a - 1][b - 1] = w; 
-      graph[b - 1][a - 1] = w;
+      for (size_t j = 0; j < n; j++)
+      {
+         size_t weight = 0;
+         std::cin >> weight;
+         graph[i][j] = weight;
+         graph[j][i] = weight;
+      }
    }
 
-   for (size_t i = 0; i < graph.size(); ++i)
-   {
-      for (size_t j = 0; j < graph[i].size(); ++j)
-         std::cout << graph[i][j] << '\t';
-      std::cout << std::endl;
-   }
+   size_t source = 0, destination = 0;
+   std::cin >> source >> destination;
 
    marks.assign(n, false);
 
    auto startTime = std::chrono::high_resolution_clock::now();
 
-   if (!(doDfs(source - 1, destination - 1, graph)))
-      std::cout << "Route is absent" << std::endl;
+   doDfs(source - 1, graph);
+   if (!marks[destination - 1])
+      std::cout << "Route is absent.\n";
+   else
+      std::cout << "Route exists.\n";
 
    auto endTime = std::chrono::high_resolution_clock::now() - startTime;
-   auto elaplsedTime = std::chrono::duration<double>(endTime).count();
+   auto elapsedTime = std::chrono::duration<double>(endTime).count();
    
    std::cout << "Algorithm time is " <<elapsedTime << " seconds.\n";
 
