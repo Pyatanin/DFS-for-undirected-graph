@@ -17,7 +17,7 @@ std::vector<bool> marks;
 void doDfs(size_t source, size_t destination, const std::vector<std::vector<double>> &graph)
 {
    marks[source] = true;
-   for (size_t i = 0; i < graph[source].size() && marks[destination] != true; i++) // Такое услови чтобы не просматривал
+   for (size_t i = 0; i < graph[source].size() && marks[destination] != true; i++) // Такое условие чтобы не просматривал
       if (!marks[i] && graph[source][i]!= 0)                                       //  все вершины если уже нашел путь.
          doDfs(i, destination, graph);
 }
