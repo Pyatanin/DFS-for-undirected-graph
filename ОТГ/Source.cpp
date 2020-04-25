@@ -14,12 +14,12 @@
 
 std::vector<bool> marks;
 
-void doDfs(size_t source, const std::vector<std::vector<double>> &graph)
+void doDfs(size_t source, size_t destination, const std::vector<std::vector<double>> &graph)
 {
    marks[source] = true;
-   for (size_t i = 0; i < graph[source].size(); i++)
-      if (!marks[graph[source][i]])
-         doDfs(graph[source][i], graph);
+   for (size_t i = 0; i < graph[source].size() && marks[destination] != true; i++)
+      if (!marks[i] && graph[source][i]!= 0)
+         doDfs(i, destination, graph);
 }
 
 int main()
@@ -35,30 +35,25 @@ int main()
    std::vector<std::vector<double>> graph(n, std::vector<double>(n, -1));
 
    for (size_t i = 0; i < n; i++)
-   {
       for (size_t j = 0; j < n; j++)
-      {
-         size_t weight = 0;
-         in >> weight;
-         graph[i][j] = weight;
-         graph[j][i] = weight;
-      }
-   }
+         in >> graph[i][j];
 
    size_t source = 0, destination = 0;
    in >> source >> destination;
+   source--;
+   destination--;
 
    marks.assign(n, false);
 
    auto startTime = std::chrono::high_resolution_clock::now();
-   doDfs(source - 1, graph);
+   doDfs(source, destination, graph);
    auto endTime = std::chrono::high_resolution_clock::now() - startTime;
    auto elapsedTime = std::chrono::duration<double>(endTime).count();
 
-   if (!marks[destination - 1])
-      out << "Route is absent.\n";
-   else
+   if (marks[destination])
       out << "Route exists.\n";
+   else
+      out << "Route is absent.\n";
 
    out << "Algorithm time is " << elapsedTime << " seconds."<<std::endl;
 
