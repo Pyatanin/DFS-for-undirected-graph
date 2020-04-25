@@ -1,4 +1,4 @@
-// Алгоритмы поиска в ширину и глубину.
+﻿// Алгоритмы поиска в ширину и глубину.
 //
 // 7. Определить, существует ли маршрут между двумя заданными вершинами в неориентированном графе. 
 // Граф в памяти представлять в виде матрицы.
@@ -33,7 +33,6 @@ bool doDfs(size_t sourceVertex, size_t targetVertex, const std::vector<std::vect
 int main()
 {
    std::ios::sync_with_stdio(false);
-   std::cin.tie(NULL);
 
    std::fstream in("in.txt");
    std::ofstream out("out.txt");
